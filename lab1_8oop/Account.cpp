@@ -1,65 +1,17 @@
 //Account.cpp
 
-#include "Account.h"
 #include <iostream>
-#include <math.h>
 #include <string>
 #include <sstream>
+#include "Account.h"
 
 using namespace std;
 
-void Account::Init(string name1, int num1, double perc1, double sum1) {
-    name = name1;
-    num = num1;
-    perc = perc1;
-    sum = sum1;
-}
 
-void Account::Read() {
-    cout << "name = "; cin >> name;
-    cout << "number = "; cin >> num;
-    cout << "percent = "; cin >> perc;
-    cout << "sum = "; cin >> sum;
-}
+bool Account::Money::Init(int newam500, int newam200, int newam100, int newam50, int newam20, int newam10, int newam5, int newam2, int newam1, int newam050, int newam025, int newam010, int newam005, int newam002, int newam001) {
+    if (newam500 < 0 || newam200 < 0 || newam100 < 0 || newam50 < 0 || newam20 < 0 || newam10 < 0 || newam5 < 0 || newam2 < 0 || newam1 < 0 || newam050 < 0 || newam025 < 0 || newam010 < 0 || newam005 < 0 || newam002 < 0 || newam001 < 0)
+        return false;
 
-void Account::Display() {
-    cout << name << endl;
-    cout << num << endl;
-    cout << perc << endl;
-    cout << sum << endl;
-}
-
-void Account::Withdraw(double value) {
-    sum -= value;
-}
-
-void Account::TopUp(double value) {
-    sum += value;
-}
-
-void Account::Interest() {
-    double percent = 0.01 * perc;
-    sum = sum + sum * percent;
-}
-
-void Account::Dollar() {
-    sum /= 32;
-}
-
-void Account::Euro() {
-    sum /= 35;
-}
-
-string Account::toString() {
-    string d;
-    stringstream sout;
-    sout << sum << endl;
-    d = sout.str();
-    d.replace(d.find("."), 1, ",");
-    return d;
-}
-
-void Account::Money::SetSum(Account& a, int newam500, int newam200, int newam100, int newam50, int newam20, int newam10, int newam5, int newam2, int newam1, int newam050, int newam025, int newam010, int newam005, int newam002, int newam001) {
     am500 = newam500;
     am200 = newam200;
     am100 = newam100;
@@ -75,49 +27,145 @@ void Account::Money::SetSum(Account& a, int newam500, int newam200, int newam100
     am005 = newam005;
     am002 = newam002;
     am001 = newam001;
-    a.sum = 500 * am500 + 200 * am200 + 100 * am100 + 50 * am50 + 20 * am20 + 10 * am10 + 5 * am5 + 2 * am2 + am1 + 0.5 * am050 + 0.25 * am025 + 0.1 * am010 + 0.05 * am005 + 0.02 * am002 + 0.01 * am001;
+    return true;
 }
 
-Account Account::Money::SumSum(Account& a, Account& b) {
-    Account c;
-    c.sum = a.sum + b.sum;
-    return c;
+double Account::Money::Sum() {
+    return 500 * am500 + 200 * am200 + 100 * am100 + 50 * am50 + 20 * am20 + 10 * am10 + 5 * am5 + 2 * am2 + am1 + 0.5 * am050 + 0.25 * am025 + 0.1 * am010 + 0.05 * am005 + 0.02 * am002 + 0.01 * am001;
 }
 
-Account Account::Money::DiffSum(Account& a, Account& b) {
-    Account c;
-    c.sum = a.sum - b.sum;
-    return c;
-}
-
-Account Account::Money::ProdSum(Account& a, Account& b) {
-    Account c;
-    c.sum = a.sum * b.sum;
-    return c;
-}
-
-Account Account::Money::DivSum(Account& a, Account& b) {
-    Account c;
-    c.sum = a.sum / b.sum;
-    return c;
-}
-
-Account Account::Money::MultOnNum(Account& a, long double number) {
-    a.sum *= number;
+Account::Money doubleMoney(double value) {
+    Account::Money a;
+    a.Sum();
     return a;
 }
 
-Account Account::Money::DivOnNum(Account& a, long double number) {
-    a.sum /= number;
-    return a;
+double SumSum(Account::Money a, Account::Money b)
+{
+    return a.Sum() + b.Sum();
 }
 
-void Account::Money::Comp(Account& a, Account& b) {
-    if (a.sum > b.sum)
-        cout << "First sum is bigger" << endl;
-    else if (a.sum < b.sum)
-        cout << "Second sum is bigger" << endl;
-    else
-        cout << "Sums are equal" << endl;
+double DiffSum(Account::Money a, Account::Money b) {
+    return a.Sum() + b.Sum();
 }
+
+double ProdSum(Account::Money a, Account::Money b)
+{
+    return a.Sum() + b.Sum();
+}
+
+double DivSum(Account::Money a, Account::Money b)
+{
+    return a.Sum() + b.Sum();
+}
+
+Account::Money MultOnNum(Account::Money a, double value) {
+    double mult = a.Sum() * value;
+    Account::Money b = doubleMoney(mult);
+    return b;
+}
+
+Account::Money DivOnNum(Account::Money a, double value) {
+    double mult = a.Sum() / value;
+    Account::Money b = doubleMoney(mult);
+    return b;
+}
+
+bool Less(Account::Money a, Account::Money b) {
+    return a.Sum() < b.Sum();
+}
+
+bool Greater(Account::Money a, Account::Money b) {
+    return a.Sum() > b.Sum();
+}
+
+bool Equal(Account::Money a, Account::Money b) {
+    return a.Sum() == b.Sum();
+}
+
+bool NotEqual(Account::Money a, Account::Money b) {
+    return !(Equal(a, b));
+}
+
+string Account::Money::toString() {
+    stringstream sout;
+    sout << Sum();
+    return sout.str();
+}
+
+void Account::Money::Read() {
+    cout << "500"; cin >> am500;
+    cout << "200"; cin >> am200;
+    cout << "100"; cin >> am100;
+    cout << "50"; cin >> am50;
+    cout << "20"; cin >> am20;
+    cout << "10"; cin >> am10;
+    cout << "5"; cin >> am5;
+    cout << "2"; cin >> am2;
+    cout << "1"; cin >> am1;
+    cout << "0,50"; cin >> am050;
+    cout << "0,25"; cin >> am025;
+    cout << "0,10"; cin >> am010;
+    cout << "0,05"; cin >> am005;
+    cout << "0,02"; cin >> am002;
+    cout << "0,01"; cin >> am001;
+}
+
+void Account::Money::Display() {
+    cout << toString() << endl;
+}
+
+void Account::Init(string name1, int num1, double perc1, Money sum1) {
+    name = name1;
+    num = num1;
+    perc = perc1;
+    sum = sum1;
+}
+
+void Account::Read() {
+    cout << "name = "; cin >> name;
+    cout << "number = "; cin >> num;
+    cout << "percent = "; cin >> perc;
+    sum.Read();
+}
+
+void Account::Display() {
+    cout << name << endl;
+    cout << num << endl;
+    cout << perc << endl;
+    cout << sum.toString() << endl;
+}
+
+void Account::Withdraw(Money value) {
+    sum = doubleMoney(DiffSum(sum, value));
+}
+
+void Account::TopUp(Money value) {
+    sum = doubleMoney(SumSum(sum, value));
+}
+
+void Account::Interest() {
+    sum = MultOnNum(sum, 0.01 * perc);
+}
+
+void Account::Dollar() {
+    sum = DivOnNum(sum, 32);
+}
+
+void Account::Euro() {
+    sum = DivOnNum(sum, 35);
+}
+
+string Account::toString() {
+    string d;
+    stringstream sout;
+    sout << sum.toString() << endl;
+    d = sout.str();
+    d.replace(d.find("."), 1, ",");
+    return d;
+}
+
+
+
+
 
