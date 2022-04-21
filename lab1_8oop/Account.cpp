@@ -88,19 +88,23 @@ Account::Money doubleMoney(double value)
     return a;
 }
 
-double SumSum(Account::Money a, Account::Money b)
+Account::Money SumSum(Account::Money a, Account::Money b)
 {
-    return a.Sum() + b.Sum();
+    double mult = a.Sum() + b.Sum();
+    Account::Money c = doubleMoney(mult);
+    return c;
 }
 
-double DiffSum(Account::Money a, Account::Money b) {
-    return a.Sum() - b.Sum();
+Account::Money DiffSum(Account::Money a, Account::Money b) {
+    double mult = a.Sum() - b.Sum();
+    Account::Money c = doubleMoney(mult);
+    return c;
 }
 
-double ProdSum(Account::Money a, Account::Money b)
+/*double ProdSum(Account::Money a, Account::Money b)
 {
     return a.Sum() * b.Sum();
-}
+}*/
 
 double DivSum(Account::Money a, Account::Money b)
 {
@@ -185,11 +189,11 @@ void Account::Display() {
 }
 
 void Account::Withdraw(Money value) {
-    sum = doubleMoney(DiffSum(sum, value));
+    sum = DiffSum(sum, value);
 }
 
 void Account::TopUp(Money value) {
-    sum = doubleMoney(SumSum(sum, value));
+    sum = SumSum(sum, value);
 }
 
 void Account::Interest() {

@@ -12,7 +12,7 @@ private:
 public:
     class Money {
     private:
-        double am500, am200, am100, am50, am20, am10, am5, am2, am1, am050, am025, am010, am005, am002, am001;
+        int am500, am200, am100, am50, am20, am10, am5, am2, am1, am050, am025, am010, am005, am002, am001;
     public:
         bool Init(int newam500, int newam200, int newam100, int newam50, int newam20, int newam10, int newam5, int newam2, int newam1, int newam050, int newam025, int newam010, int newam005, int newam002, int newam001);
         double Sum();
@@ -50,9 +50,9 @@ public:
         int GetAm001() const { return am001; };
 
         friend Money doubleMoney(double value);
-        friend double SumSum(Money a, Money b);
-        friend double DiffSum(Money a, Money b);
-        friend double ProdSum(Money a, Money b);
+        friend Money SumSum(Money a, Money b);
+        friend Money DiffSum(Money a, Money b);
+        //friend double ProdSum(Money a, Money b);
         friend double DivSum(Money a, Money b);
         friend Money MultOnNum(Money a, double value);
         friend Money DivOnNum(Money a, double value);
